@@ -14,7 +14,7 @@ namespace ui
         &my_gmsk_numberfield
       });
 
-      my_gmsk_button.on_select = [&nav](Button &){
+      my_gmsk_button.on_select = [this](Button &){
         int number = my_gmsk_numberfield.value();
         number++;
         my_gmsk_numberfield.set_value(number);

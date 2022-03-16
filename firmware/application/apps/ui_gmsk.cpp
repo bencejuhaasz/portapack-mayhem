@@ -15,7 +15,7 @@ namespace ui
       });
 
       my_button.on_select = [&nav](Button &){
-        int number = my_numberField.value();
+        int number = my_numberfield.value();
         number++;
         my_numberfield.set_value(number);
       }

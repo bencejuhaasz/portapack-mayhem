@@ -19,9 +19,9 @@ namespace ui
                 this->update();                                   // be triggered.
             }};
 
-            NumberField my_gmsk_numberfield({10, 10},3,{0, 255},1,'0',false);
+            NumberField my_gmsk_numberfield{{10, 10},3,{0, 255},1,'0',false};
 
-            Button my_gmsk_button({30, 30, 100, 24},"Increase");
+            Button my_gmsk_button{{30, 30, 100, 24},"Increase"};
     };
 
 

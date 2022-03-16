@@ -19,4 +19,19 @@ namespace ui
                 this->update();                                   // be triggered.
             }};
     };
+
+    // Example 3 digit number starting at "000", ends at "255"
+    NumberField my_numberfield(
+      {10, 10},          // Coordinates are: int:x (px), int:y (px)
+      3,                 // Length
+      {0, 255},          // MIN -> MAX Range
+      1,                 // Step
+      '0',               // Fill Char
+      false              // Can Loop
+    );
+
+    Button my_button(
+      {30, 30, 100, 24}, // Coordinates are: int:x (px), int:y (px), int:width (px), int:height (px)
+      "Increase"
+    );
 }

@@ -9,11 +9,20 @@ namespace ui
 
     GMSKView::GMSKView(NavigationView &nav) // Application Main
     {
-         // App code
+      add_children({
+        &my_button,
+        &my_numberfield
+      });
     }
 
     void NewAppView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
     {
          // Message code
+    }
+
+    my_button.on_select = [&nav](Button &){
+      int number = my_numberField.value();
+      number++;
+      my_numberField.set_value(number);
     }
 }

@@ -21,7 +21,7 @@ namespace ui
     };
 
     // Example 3 digit number starting at "000", ends at "255"
-    NumberField my_numberfield(
+    NumberField my_gmsk_numberfield(
       {10, 10},          // Coordinates are: int:x (px), int:y (px)
       3,                 // Length
       {0, 255},          // MIN -> MAX Range
@@ -30,7 +30,7 @@ namespace ui
       false              // Can Loop
     );
 
-    Button my_button(
+    Button my_gmsk_button(
       {30, 30, 100, 24}, // Coordinates are: int:x (px), int:y (px), int:width (px), int:height (px)
       "Increase"
     );

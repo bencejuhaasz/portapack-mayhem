@@ -10,14 +10,14 @@ namespace ui
     GMSKView::GMSKView(NavigationView &nav) // Application Main
     {
       add_children({
-        &my_button,
-        &my_numberfield
+        &my_gmsk_button,
+        &my_gmsk_numberfield
       });
 
-      my_button.on_select = [&nav](Button &){
-        int number = my_numberfield.value();
+      my_gmsk_numberfield_button.on_select = [&nav](Button &){
+        int number = my_gmsk_numberfield.value();
         number++;
-        my_numberfield.set_value(number);
+        my_gmsk_numberfield.set_value(number);
       };
     }
 

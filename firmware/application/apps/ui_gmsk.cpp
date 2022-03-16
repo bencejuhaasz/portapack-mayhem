@@ -15,12 +15,12 @@ namespace ui
       });
     }
 
-    void NewAppView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
+    void GMSKView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
     {
          // Message code
     }
 
-    my_button.on_select = [&nav](Button &){
+    GMSKView::my_button.on_select = [&nav](Button &){
       int number = my_numberField.value();
       number++;
       my_numberField.set_value(number);

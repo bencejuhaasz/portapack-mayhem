@@ -30,6 +30,7 @@
 #include "bmp_modal_warning.hpp"
 #include "portapack_persistent_memory.hpp"
 
+#include "ui_gmsk.hpp"
 #include "ui_about_simple.hpp"
 #include "ui_adsb_rx.hpp"
 #include "ui_adsb_tx.hpp"

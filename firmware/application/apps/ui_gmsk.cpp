@@ -18,7 +18,7 @@ namespace ui
         int number = my_numberfield.value();
         number++;
         my_numberfield.set_value(number);
-      }
+      };
     }
 
     void GMSKView::update()                   // Every time you get a DisplayFrameSync message this function will be ran

@@ -217,7 +217,6 @@ set(CPPSRC
 	ui/ui_tabview.cpp
 	ui/ui_textentry.cpp
 	ui/ui_transmitter.cpp
-	apps/ui_gmsk.cpp
 	apps/ui_about_simple.cpp
 	apps/ui_adsb_rx.cpp
 	apps/ui_adsb_tx.cpp
@@ -269,6 +268,7 @@ set(CPPSRC
 	apps/gps_sim_app.cpp
 	apps/soundboard_app.cpp
 	apps/tpms_app.cpp
+	apps/ui_gmsk.cpp
 	protocols/aprs.cpp
 	protocols/ax25.cpp
 	protocols/bht.cpp

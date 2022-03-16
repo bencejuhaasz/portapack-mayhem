@@ -19,7 +19,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street,
  * Boston, MA 02110-1301, USA.
  */
-
+#include "ui_gmsk.hpp"
 #include "ui_navigation.hpp"
 
 //#include "modules.h"
@@ -30,8 +30,6 @@
 #include "bmp_modal_warning.hpp"
 #include "portapack_persistent_memory.hpp"
 
-#include "ui_gmsk.hpp"
-#include "ui_gmsk.cpp"
 
 #include "ui_about_simple.hpp"
 #include "ui_adsb_rx.hpp"

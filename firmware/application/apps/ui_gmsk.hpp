@@ -22,6 +22,29 @@ namespace ui
             NumberField my_gmsk_numberfield{{10, 10},3,{0, 255},1,'0',false};
 
             Button my_gmsk_button{{30, 30, 100, 24},"Increase"};
+
+            //TX functions
+            void start_tx(std::string& message);                                         // Function declarations
+            void stop_tx();
+            void on_tx_progress(const uint32_t progress, const bool done);
+
+            MessageHandlerRegistration message_handler_tx_progress {
+              Message::ID::TXProgress,
+              [this](const Message* const p) {
+                const auto message = *reinterpret_cast<const TXProgressMessage*>(p);
+                this->on_tx_progress(message.progress, message.done);
+
+             }};
+
+        void start_rx();
+        void stop_rx();
+        void on_data();
+        MessageHandlerRegistration message_handler_packet {
+          Message::ID::AFSKData,
+          [this](Message* const p) {
+            const auto message = static_cast<const AFSKDataMessage*>(p); 
+            this->on_data(message->value, message->is_data);
+        }};
     };
 
 

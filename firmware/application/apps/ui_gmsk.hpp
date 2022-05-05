@@ -2,6 +2,8 @@
 #include "ui_widget.hpp"
 #include "ui_navigation.hpp"
 #include "string_format.hpp"
+#include "encoders.hpp"
+#include "baseband_api.hpp"
 
 namespace ui
 {
@@ -12,6 +14,7 @@ namespace ui
         std::string title() const override { return "GMSK Demod App"; }; // App title
 
     private:
+	uint32_t prev_reg;
         void update();                                            // Function declaration
         MessageHandlerRegistration message_handler_update{        // Example, not required: MessageHandlerRegistration class
             Message::ID::DisplayFrameSync,                        // relays messages to your app code from baseband. Every time you
@@ -26,24 +29,26 @@ namespace ui
             //TX functions
             void start_tx(std::string& message);                                         // Function declarations
             void stop_tx();
-            void on_tx_progress(const uint32_t progress, const bool done);
+            void on_rx_progress(const uint32_t progress, const bool done);
 
             MessageHandlerRegistration message_handler_tx_progress {
               Message::ID::TXProgress,
               [this](const Message* const p) {
                 const auto message = *reinterpret_cast<const TXProgressMessage*>(p);
-                this->on_tx_progress(message.progress, message.done);
+                this->on_rx_progress(message.progress, message.done);
 
              }};
 
         void start_rx();
         void stop_rx();
-        void on_data();
+        void on_data(const uint32_t*, const bool*);	
+        //void on_data(const uint32_t, const bool);
+
         MessageHandlerRegistration message_handler_packet {
           Message::ID::AFSKData,
           [this](Message* const p) {
             const auto message = static_cast<const AFSKDataMessage*>(p); 
-            this->on_data(message->value, message->is_data);
+            this->on_data(&message->value, &message->is_data);
         }};
     };
 

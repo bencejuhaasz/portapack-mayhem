@@ -4,6 +4,8 @@
 #include "string_format.hpp"
 #include "encoders.hpp"
 #include "baseband_api.hpp"
+#include "file.hpp" 
+#include "sd_card.hpp"
 
 namespace ui
 {
@@ -43,6 +45,10 @@ namespace ui
         void stop_rx();
         void on_data(const uint32_t*, const bool*);	
         //void on_data(const uint32_t, const bool);
+	
+	//File handling
+	bool write_file(const std::filesystem::path& path, std::string name, std::string data);
+	bool create_file(const std::filesystem::path& path, std::string name);
 
         MessageHandlerRegistration message_handler_packet {
           Message::ID::AFSKData,

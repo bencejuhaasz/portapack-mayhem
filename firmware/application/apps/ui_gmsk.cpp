@@ -21,7 +21,8 @@ namespace ui
         my_gmsk_numberfield.set_value(number);
         start_rx();
       };
-
+  
+      create_file(u"FSK", "LOG.txt")
       baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
     }
 
@@ -64,6 +65,7 @@ namespace ui
 			            my_gmsk_numberfield.set_value(number);
 				    prev_reg=*value;
 	    }
+	    write_file(u"FSK", "LOG.TXT", value);
          }
     }
 
@@ -75,6 +77,26 @@ namespace ui
 								                    // UI logic, update ProgressBar with progress var
        }									    //          }
     }								    //              }
+
+    
+
+    bool GMSKView::create_file(const std::filesystem::path& path, std::string name) {
+       File file = { };                                                                // Create File object
+       Optional<File::Error> sucess = file.create(path.string() + "/" + name);         // Create File
+       return !(sucess.is_valid());                                                    // 0 is success
+    }
+
+    bool GMSKView::write_file(const std::filesystem::path& path, std::string name, std::string data) {
+    File file;                                                                     // Create File object
+    auto sucess = file.append(path.string() + "/" + name);                         // Open file
+    if(!sucess.is_valid()) {                                                       // 0 is success
+        file.write_line(data);
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 
 }

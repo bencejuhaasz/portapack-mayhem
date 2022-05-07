@@ -7,6 +7,7 @@
 #include "baseband_api.hpp"
 #include "file.hpp" 
 #include "sd_card.hpp"
+#include "portapack_persistent_memory.hpp"
 
 namespace ui
 {
@@ -42,6 +43,16 @@ namespace ui
 
             Button start_btn{{60, 60, 100, 100},"Start"};
             Button stop_btn{{60, 200, 100, 100},"Stop"};
+            
+            //??
+            const Rect options_view_rect { 0 * 8, 1 * 16, 30 * 8, 1 * 16 };
+            constexpr Style style_options_group {
+	      .font = font::fixed_8x16,
+	      .background = Color::blue(),
+	      .foreground = Color::white(),
+            };
+            
+            
 
             //RX functions
             void start_rx();

@@ -160,4 +160,17 @@ namespace ui
 							            return false;
 								        }
     }
+    
+    void GMSKView::set_options_widget(std::unique_ptr<Widget> new_widget) {
+	remove_options_widget();
+
+	if( new_widget ) {
+		options_widget = std::move(new_widget);
+	} else {
+		// TODO: Lame hack to hide options view due to my bad paint/damage algorithm.
+		options_widget = std::make_unique<Rectangle>(options_view_rect, style_options_group.background);
+	}
+	add_child(options_widget.get());
+    }
+    
 }

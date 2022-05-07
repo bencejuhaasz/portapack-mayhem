@@ -16,7 +16,7 @@ namespace ui
         &data_status_label,
         &start_btn,
         &stop_btn,
-        &rx_freq
+        &field_frequency
       });
 
       start_btn.on_select = [this](Button &){

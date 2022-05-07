@@ -13,19 +13,28 @@ namespace ui
     {
       prev_reg = 0;
       add_children({
-        &my_gmsk_button,
-        &my_gmsk_numberfield
+        &data_status_label,
+        &start_btn,
+        &stop_btn
       });
 
-      my_gmsk_button.on_select = [this](Button &){
-        int number = my_gmsk_numberfield.value();
+      start_btn.on_select = [this](Button &){
+        int number = data_status_label.value();
         number++;
-        my_gmsk_numberfield.set_value(number);
+        data_status_label.set_value(number);
         start_rx();
       };
+      
+      //Create file we are recording to
       create_file(u"", "ASD.txt");
+      //Start baseband RX process
       baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
+      
+      stop_btn.on_select = [this](Button &){
+        stop_rx();
+      };
     }
+    
 
     void GMSKView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
     {
@@ -58,15 +67,21 @@ namespace ui
             // RX data handling Logic
 	    //my_gmsk_numberfield.set_value(*value);
 	      if (prev_reg!=*value) {
-		    int number = my_gmsk_numberfield.value();
+		    int number = data_status_label.value();
 		    if (number==255) {
 			    number=0;
                     }
 		            number++;
-			            my_gmsk_numberfield.set_value(number);
+			            data_status_label.set_value(number);
 				    prev_reg=*value;
 	    }
-	    write_file(u"", "ASD.TXT", value);
+	    if(buffer_cnt==999) {
+	    	write_file(u"", "ASD.TXT", int_rec_buffer);
+	    	buffer_cnt=0;
+	    }
+	    int_rec_buffer[buffer_cnt]=*value;
+	    buffer_cnt++;
+	    
          }
     }
 
@@ -89,7 +104,7 @@ namespace ui
 	        File file;                                                                     // Create File object
 		    auto sucess = file.append(path.string() + "/" + name);                         // Open file
 		        if(!sucess.is_valid()) {                                                       // 0 is success
-				        file.write(data,1);
+				        file.write(data,1000);
 					        return true;
 						    } else {
 							            return false;

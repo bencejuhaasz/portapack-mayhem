@@ -13,10 +13,12 @@ namespace ui
     {
     public:
         GMSKView(NavigationView &nav);                          // App class init function declaration
-        std::string title() const override { return "GMSK Demod App"; }; // App title
+        std::string title() const override { return "GMSK-REC"; }; // App title
 
     private:
 	uint32_t prev_reg;
+	uint32_t int_rec_buffer[1000];
+	int buffer_cnt=0;
         void update();                                            // Function declaration
         MessageHandlerRegistration message_handler_update{        // Example, not required: MessageHandlerRegistration class
             Message::ID::DisplayFrameSync,                        // relays messages to your app code from baseband. Every time you
@@ -24,13 +26,15 @@ namespace ui
                 this->update();                                   // be triggered.
             }};
 
-            NumberField my_gmsk_numberfield{{10, 10},3,{0, 255},1,'0',false};
+            NumberField data_status_label{{10, 10},3,{0, 255},1,'0',false};
 
-            Button my_gmsk_button{{30, 30, 100, 24},"Increase"};
+            Button start_btn{{60, 60, 100, 100},"Start"};
+            Button stop_btn{{60, 200, 100, 100},"Stop"};
 
-            //TX functions
-            void start_tx(std::string& message);                                         // Function declarations
-            void stop_tx();
+            //RX functions
+            void start_rx();
+            void stop_rx();
+            void on_data(const uint32_t*, const bool*);
             void on_rx_progress(const uint32_t progress, const bool done);
 
             MessageHandlerRegistration message_handler_tx_progress {
@@ -41,10 +45,6 @@ namespace ui
 
              }};
 
-        void start_rx();
-        void stop_rx();
-        void on_data(const uint32_t*, const bool*);	
-        //void on_data(const uint32_t, const bool);
 	
 	//File handling
         bool write_file(const std::filesystem::path& path, std::string name, const void * data);

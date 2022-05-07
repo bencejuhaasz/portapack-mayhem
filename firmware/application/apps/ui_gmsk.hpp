@@ -52,6 +52,8 @@ namespace ui
 	      .background = Color::blue(),
 	      .foreground = Color::white(),
             };
+            std::unique_ptr<Widget> options_widget { };
+            void remove_options_widget();
             
             
 

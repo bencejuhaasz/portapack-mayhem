@@ -15,7 +15,8 @@ namespace ui
       add_children({
         &data_status_label,
         &start_btn,
-        &stop_btn
+        &stop_btn,
+        &rx_freq
       });
 
       start_btn.on_select = [this](Button &){
@@ -33,8 +34,57 @@ namespace ui
       stop_btn.on_select = [this](Button &){
         stop_rx();
       };
+      
+      
+      //Freq selector
+      field_frequency.set_value(receiver_model.tuning_frequency());
+      field_frequency.set_step(receiver_model.frequency_step());
+      field_frequency.on_change = [this](rf::Frequency f) {
+		this->on_tuning_frequency_changed(f);
+      };
+      field_frequency.on_edit = [this, &nav]() {
+		// TODO: Provide separate modal method/scheme?
+		auto new_view = nav.push<FrequencyKeypadView>(receiver_model.tuning_frequency());
+		new_view->on_changed = [this](rf::Frequency f) {
+			this->on_tuning_frequency_changed(f);
+			this->field_frequency.set_value(f);
+		};
+      };
+      
+      field_frequency.on_show_options = [this]() {
+		this->on_show_options_frequency();
+      };
     }
     
+
+    void GMSKView::on_tuning_frequency_changed(rf::Frequency f) {
+	receiver_model.set_tuning_frequency(f);
+    }
+    
+    void GMSKView::on_show_options_frequency() {
+	auto widget = std::make_unique<FrequencyOptionsView>(options_view_rect, &style_options_group);
+
+	widget->set_step(receiver_model.frequency_step());
+	widget->on_change_step = [this](rf::Frequency f) {
+		this->on_frequency_step_changed(f);
+	};
+	widget->set_reference_ppm_correction(persistent_memory::correction_ppb() / 1000);
+	widget->on_change_reference_ppm_correction = [this](int32_t v) {
+		this->on_reference_ppm_correction_changed(v);
+	};
+
+	set_options_widget(std::move(widget));
+	field_frequency.set_style(&style_options_group);
+     }
+     
+     void GMSKView::on_frequency_step_changed(rf::Frequency f) {
+	receiver_model.set_frequency_step(f);
+	field_frequency.set_step(f);
+     }
+     
+     void GMSKView::on_reference_ppm_correction_changed(int32_t v) {
+	persistent_memory::set_correction_ppb(v * 1000);
+     }
 
     void GMSKView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
     {

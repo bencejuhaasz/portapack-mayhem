@@ -28,6 +28,15 @@ namespace ui
 
             NumberField data_status_label{{10, 10},3,{0, 255},1,'0',false};
 
+            FrequencyField rx_freq {
+		{60, 10},
+	    };
+
+            //freq change events
+            void on_tuning_frequency_changed(rf::Frequency f);
+            void on_show_options_frequency();
+            void on_edit_frequency();
+
             Button start_btn{{60, 60, 100, 100},"Start"};
             Button stop_btn{{60, 200, 100, 100},"Stop"};
 

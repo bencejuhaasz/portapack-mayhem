@@ -40,13 +40,14 @@ namespace ui
             void on_edit_frequency();
             void on_reference_ppm_correction_changed(int32_t);
             void on_frequency_step_changed(rf::Frequency);
+            void set_options_widget(std::unique_ptr<ui::Widget>);
 
             Button start_btn{{60, 60, 100, 100},"Start"};
             Button stop_btn{{60, 200, 100, 100},"Stop"};
             
             //??
             const Rect options_view_rect { 0 * 8, 1 * 16, 30 * 8, 1 * 16 };
-            constexpr Style style_options_group {
+            Style style_options_group {
 	      .font = font::fixed_8x16,
 	      .background = Color::blue(),
 	      .foreground = Color::white(),

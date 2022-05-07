@@ -47,7 +47,7 @@ namespace ui
         //void on_data(const uint32_t, const bool);
 	
 	//File handling
-	bool write_file(const std::filesystem::path& path, std::string name, std::string data);
+        bool write_file(const std::filesystem::path& path, std::string name, const void * data);
 	bool create_file(const std::filesystem::path& path, std::string name);
 
         MessageHandlerRegistration message_handler_packet {

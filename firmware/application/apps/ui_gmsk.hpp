@@ -1,6 +1,7 @@
 #include "ui.hpp"
 #include "ui_widget.hpp"
 #include "ui_navigation.hpp"
+#include "ui_receiver.hpp"
 #include "string_format.hpp"
 #include "encoders.hpp"
 #include "baseband_api.hpp"

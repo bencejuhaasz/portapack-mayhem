@@ -179,8 +179,8 @@ namespace ui
 		options_widget.reset();
 	}
 	
-	field_lna.set_style(nullptr);
-	options_modulation.set_style(nullptr);
+	//field_lna.set_style(nullptr);
+	//options_modulation.set_style(nullptr);
 	field_frequency.set_style(nullptr);
    }
     

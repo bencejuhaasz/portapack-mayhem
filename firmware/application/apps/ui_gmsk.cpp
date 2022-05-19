@@ -27,7 +27,7 @@ namespace ui
       };
       
       //Create file we are recording to
-      create_file(u"", "ASD.txt");
+      create_file(u"FSK", "REC.bin");
       //Start baseband RX process
       baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
       

@@ -126,7 +126,7 @@ namespace ui
 				    prev_reg=*value;
 	    }
 	    if(buffer_cnt==999) {
-	    	write_file(u"", "ASD.TXT", int_rec_buffer);
+	    	write_file(u"FSK", "REC.bin", int_rec_buffer);
 	    	buffer_cnt=0;
 	    }
 	    int_rec_buffer[buffer_cnt]=*value;

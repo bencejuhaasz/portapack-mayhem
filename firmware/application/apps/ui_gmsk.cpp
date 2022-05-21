@@ -32,13 +32,6 @@ namespace ui
       //Create file we are recording to
       create_file(u"FSK", "REC.bin");
       //Start baseband RX process
-      baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
-      
-      baseband::set_afsk(9600, 8, 0, false);
-      receiver_model.set_tuning_frequency(5000000);
-      receiver_model.set_sampling_rate(2000000);
-      receiver_model.set_baseband_bandwidth(240000);
-      receiver_model.set_modulation(ReceiverModel::Mode::NarrowbandFMAudio);
       
       stop_btn.on_select = [this](Button &){
         stop_rx();
@@ -103,10 +96,14 @@ namespace ui
     void GMSKView::start_rx()
     {
       // persistent_memory::set_modem_baudrate(def_bell202->baudrate);
-      //baseband::set_afsk(persistent_memory::modem_baudrate(), 8, 0, false);      
+      //baseband::set_afsk(persistent_memory::modem_baudrate(), 8, 0, false);
+      baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
+      baseband::set_afsk(9600, 8, 0, false);
+      receiver_model.set_tuning_frequency(5000000);
+      receiver_model.set_sampling_rate(2000000);
+      receiver_model.set_baseband_bandwidth(240000);
+      receiver_model.set_modulation(ReceiverModel::Mode::NarrowbandFMAudio);      
       receiver_model.enable();
-
-
     }
 
     void GMSKView::stop_rx()

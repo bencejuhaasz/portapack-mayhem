@@ -115,6 +115,7 @@ public:
 		APRSPacket = 54,
 		APRSRxConfigure = 55,
 		FSKData = 56,
+		FSKRxConfigure = 57,
 		MAX
 	};
 
@@ -420,18 +421,15 @@ public:
 };
 
 class FSKRxConfigureMessage : public Message {
-public:
-	constexpr FSKRxConfigureMessage(
-		const uint32_t baudrate,
-		const uint32_t trigger_value,
-	) : Message { ID::AFSKRxConfigure },
-		baudrate(baudrate),
-		trigger_value(trigger_value),
-	{
-	}
-
 	const uint32_t baudrate;
 	const uint32_t trigger_value;
+public:
+	constexpr FSKRxConfigureMessage(const uint32_t baudrate,const uint32_t trigger_value
+	) : Message { ID::FSKRxConfigure },
+		baudrate(baudrate),
+		trigger_value(trigger_value)
+	{
+	}
 };
 
 class CodedSquelchMessage : public Message {

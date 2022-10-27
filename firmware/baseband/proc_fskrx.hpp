@@ -8,6 +8,6 @@ class FSKRXProcessor: public BasebandProcessor {
 public:
   void execute(const buffer_c8_t& buffer) override;
   void on_message(const Message* const p) override;
-}
+};
 
 #endif

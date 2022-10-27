@@ -10,6 +10,6 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
 
 }
 
-void FSKProcessor::on_message(const Message* const p) {
+void FSKRXProcessor::on_message(const Message* const p) {
 
 }

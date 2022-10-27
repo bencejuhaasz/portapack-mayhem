@@ -84,7 +84,7 @@ public:
 
 		TXProgress = 30,
 		Retune = 31,
-		
+
 		TonesConfigure = 32,
 		AFSKTxConfigure = 33,
 		PitchRSSIConfigure = 34,
@@ -100,20 +100,21 @@ public:
 		SSTVConfigure = 44,
 		SigGenConfig = 43,
 		SigGenTone = 44,
-		
+
 		POCSAGPacket = 45,
 		ADSBFrame = 46,
 		AFSKData = 47,
 		TestAppPacket = 48,
-		
+
 		RequestSignal = 49,
 		FIFOData = 50,
-		
+
 		AudioLevelReport = 51,
 		CodedSquelch = 52,
 		AudioSpectrum = 53,
 		APRSPacket = 54,
 		APRSRxConfigure = 55,
+		FSKData = 56,
 		MAX
 	};
 
@@ -311,7 +312,7 @@ using ChannelSpectrumFIFO = FIFO<ChannelSpectrum>;
 class ChannelSpectrumConfigMessage : public Message {
 public:
 	static constexpr size_t fifo_k = 2;
-	
+
 	constexpr ChannelSpectrumConfigMessage(
 		ChannelSpectrumFIFO* fifo
 	) : Message { ID::ChannelSpectrumConfig },
@@ -357,7 +358,7 @@ public:
 		packet { packet }
 	{
 	}
-	
+
 	pocsag::POCSAGPacket packet;
 };
 
@@ -383,7 +384,7 @@ public:
 		amp(amp)
 	{
 	}
-	
+
 	adsb::ADSBFrame frame;
 	uint32_t amp;
 };
@@ -398,9 +399,39 @@ public:
 		value { value }
 	{
 	}
-	
+
 	bool is_data;
 	uint32_t value;
+};
+
+class FSKDataMessage : public Message {
+public:
+	constexpr FSKDataMessage(
+		const bool is_data,
+		const uint32_t value
+	) : Message { ID::FSKData },
+		is_data { is_data },
+		value { value }
+	{
+	}
+
+	bool is_data;
+	uint32_t value;
+};
+
+class FSKRxConfigureMessage : public Message {
+public:
+	constexpr FSKRxConfigureMessage(
+		const uint32_t baudrate,
+		const uint32_t trigger_value,
+	) : Message { ID::AFSKRxConfigure },
+		baudrate(baudrate),
+		trigger_value(trigger_value),
+	{
+	}
+
+	const uint32_t baudrate;
+	const uint32_t trigger_value;
 };
 
 class CodedSquelchMessage : public Message {
@@ -411,7 +442,7 @@ public:
 		value { value }
 	{
 	}
-	
+
 	uint32_t value;
 };
 
@@ -589,7 +620,7 @@ public:
 		used_ += copy_size;
 		return copy_size;
 	}
-	
+
 	size_t read(void* p, const size_t count) {
 		const auto copy_size = std::min(used_, count);
 		memcpy(p, &data_[capacity_ - used_], copy_size);
@@ -600,7 +631,7 @@ public:
 	bool is_full() const {
 		return used_ >= capacity_;
 	}
-	
+
 	bool is_empty() const {
 		return used_ == 0;
 	}
@@ -612,7 +643,7 @@ public:
 	size_t size() const {
 		return used_;
 	}
-	
+
 	size_t capacity() const {
 		return capacity_;
 	}
@@ -705,7 +736,7 @@ public:
 	) : Message { ID::TXProgress }
 	{
 	}
-	
+
 	uint32_t progress = 0;
 	bool done = false;
 };
@@ -724,7 +755,7 @@ public:
 		trigger_word(trigger_word)
 	{
 	}
-	
+
 	const uint32_t baudrate;
 	const uint32_t word_length;
 	const uint32_t trigger_value;
@@ -739,7 +770,7 @@ public:
 		baudrate(baudrate)
 	{
 	}
-	
+
 	const uint32_t baudrate;
 };
 
@@ -793,7 +824,7 @@ public:
 		rssi(rssi)
 	{
 	}
-	
+
 	const bool enabled;
 	const int32_t rssi;
 };
@@ -830,7 +861,7 @@ public:
 		length(length)
 	{
 	}
-	
+
 	const uint16_t length = 0;
 };
 
@@ -840,7 +871,7 @@ public:
 	) : Message { ID::Retune }
 	{
 	}
-	
+
 	int64_t freq = 0;
 	uint32_t range = 0;
 };
@@ -853,7 +884,7 @@ public:
 		sample_rate(sample_rate)
 	{
 	}
-	
+
 	const uint32_t sample_rate = 0;
 };
 
@@ -863,7 +894,7 @@ public:
 	) : Message { ID::AudioLevelReport }
 	{
 	}
-	
+
 	uint32_t value = 0;
 };
 
@@ -1019,7 +1050,7 @@ public:
 
 class POCSAGConfigureMessage : public Message {
 public:
-	constexpr POCSAGConfigureMessage() 
+	constexpr POCSAGConfigureMessage()
 	: Message { ID::POCSAGConfigure }
 	{
 	}
@@ -1033,7 +1064,7 @@ public:
 		packet { packet }
 	{
 	}
-	
+
 	aprs::APRSPacket packet;
 };
 

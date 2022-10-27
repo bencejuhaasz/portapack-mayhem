@@ -10,6 +10,7 @@ public:
   void on_message(const Message* const p) override;
 private:
   FSKDataMessage data_message { false, 0 };
+  void configure(const FSKRxConfigureMessage& message);
 };
 
 #endif

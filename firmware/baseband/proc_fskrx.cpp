@@ -13,3 +13,9 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
 void FSKRXProcessor::on_message(const Message* const p) {
 
 }
+
+int main() {
+	EventDispatcher event_dispatcher { std::make_unique<FSKRXProcessor>() };
+	event_dispatcher.run();
+	return 0;
+}

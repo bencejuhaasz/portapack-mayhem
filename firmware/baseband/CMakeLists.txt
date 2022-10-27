@@ -316,6 +316,8 @@ set(MODE_CPPSRC
 )
 DeclareTargets(PAFR afskrx)
 
+### FSK RX
+
 set(MODE_CPPSRC
 	proc_fskrx.cpp
 )

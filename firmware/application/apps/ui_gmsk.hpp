@@ -5,7 +5,7 @@
 #include "string_format.hpp"
 #include "encoders.hpp"
 #include "baseband_api.hpp"
-#include "file.hpp" 
+#include "file.hpp"
 #include "sd_card.hpp"
 #include "portapack_persistent_memory.hpp"
 
@@ -44,7 +44,7 @@ namespace ui
 
             Button start_btn{{60, 60, 100, 100},"Start"};
             Button stop_btn{{60, 200, 100, 100},"Stop"};
-            
+
             //??
             const Rect options_view_rect { 0 * 8, 1 * 16, 30 * 8, 1 * 16 };
             Style style_options_group {
@@ -54,9 +54,9 @@ namespace ui
             };
             std::unique_ptr<Widget> options_widget { };
             void remove_options_widget();
-            
-            
-            
+
+
+
 
             //RX functions
             void start_rx();
@@ -72,15 +72,15 @@ namespace ui
 
              }};
 
-	
+
 	//File handling
         bool write_file(const std::filesystem::path& path, std::string name, const void * data);
 	bool create_file(const std::filesystem::path& path, std::string name);
 
         MessageHandlerRegistration message_handler_packet {
-          Message::ID::AFSKData,
+          Message::ID::FSKData,
           [this](Message* const p) {
-            const auto message = static_cast<const AFSKDataMessage*>(p); 
+            const auto message = static_cast<const FSKDataMessage*>(p);
             this->on_data(&message->value, &message->is_data);
         }};
     };

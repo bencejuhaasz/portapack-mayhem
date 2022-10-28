@@ -7,14 +7,17 @@
 
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
-  uint32_t ret = 0;
-  for (size_t i = 0; i < buffer.count; i++) {
-    complex8_t cmp = buffer.p[i];
-    ret+=cmp.real();
-    ret+=cmp.imag();
+  const auto decim_0_out = decim_0.execute(buffer, dst_buffer);				// 2048 / 8 = 256 (512 I/Q samples)
+	const auto decim_1_out = decim_1.execute(decim_0_out, dst_buffer);			// 256 / 8 = 32 (64 I/Q samples)
+	const auto channel_out = channel_filter.execute(decim_1_out, dst_buffer);	// 32 / 2 = 16 (32 I/Q samples)
+  uint32_t ret = channel_out.p[0].real();
+  for (size_t i = 0; i < channel_out.count; i++) {
+    ret += channel_out.p[i].real();
   }
-  data_message.is_data = true;
-  data_message.value = ret;
+  for (size_t i = 0; i < channel_out.count; i++) {
+    ret += channel_out.p[i].imag();
+  }
+  FSKDataMessage data_message(true,ret);
   shared_memory.application_queue.push(data_message);
 }
 

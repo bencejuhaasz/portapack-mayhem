@@ -410,7 +410,7 @@ public:
 	constexpr FSKDataMessage(
 		const bool is_data,
 		const uint32_t value
-	) : Message { ID::FSKData },
+	) : Message { ID::AFSKData },
 		is_data { is_data },
 		value { value }
 	{

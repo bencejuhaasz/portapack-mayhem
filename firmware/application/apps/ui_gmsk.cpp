@@ -18,9 +18,9 @@ namespace ui
         &stop_btn,
         &field_frequency
       });
-      
-      
-      
+
+
+
 
       start_btn.on_select = [this](Button &){
         int number = data_status_label.value();
@@ -28,16 +28,16 @@ namespace ui
         data_status_label.set_value(number);
         start_rx();
       };
-      
+
       //Create file we are recording to
       create_file(u"FSK", "REC.bin");
       //Start baseband RX process
-      
+
       stop_btn.on_select = [this](Button &){
         stop_rx();
       };
-      
-      
+
+
       //Freq selector
       field_frequency.set_value(receiver_model.tuning_frequency());
       field_frequency.set_step(receiver_model.frequency_step());
@@ -52,17 +52,17 @@ namespace ui
 			this->field_frequency.set_value(f);
 		};
       };
-      
+
       field_frequency.on_show_options = [this]() {
 		this->on_show_options_frequency();
       };
     }
-    
+
 
     void GMSKView::on_tuning_frequency_changed(rf::Frequency f) {
 	receiver_model.set_tuning_frequency(f);
     }
-    
+
     void GMSKView::on_show_options_frequency() {
 	auto widget = std::make_unique<FrequencyOptionsView>(options_view_rect, &style_options_group);
 
@@ -78,12 +78,12 @@ namespace ui
 	set_options_widget(std::move(widget));
 	field_frequency.set_style(&style_options_group);
      }
-     
+
      void GMSKView::on_frequency_step_changed(rf::Frequency f) {
 	receiver_model.set_frequency_step(f);
 	field_frequency.set_step(f);
      }
-     
+
      void GMSKView::on_reference_ppm_correction_changed(int32_t v) {
 	persistent_memory::set_correction_ppb(v * 1000);
      }
@@ -97,12 +97,13 @@ namespace ui
     {
       // persistent_memory::set_modem_baudrate(def_bell202->baudrate);
       //baseband::set_afsk(persistent_memory::modem_baudrate(), 8, 0, false);
-      baseband::run_image(portapack::spi_flash::image_tag_afsk_rx);
-      baseband::set_afsk(9600, 8, 0, false);
+      baseband::run_image(portapack::spi_flash::image_tag_fsk_rx);
+      //baseband::set_afsk(9600, 8, 0, false);
       receiver_model.set_tuning_frequency(5000000);
       receiver_model.set_sampling_rate(2000000);
       receiver_model.set_baseband_bandwidth(240000);
-      receiver_model.set_modulation(ReceiverModel::Mode::NarrowbandFMAudio);      
+      //receiver_model.set_modulation(ReceiverModel::Mode::NarrowbandFMAudio);
+      receiver_model.set_modulation(ReceiverModel::Mode::Capture);
       receiver_model.enable();
     }
 
@@ -126,22 +127,22 @@ namespace ui
 			            data_status_label.set_value(number);
 				    prev_reg=*value;
 	    }
-	    if(buffer_cnt==999) {
+	    if(buffer_cnt==1000) {
 	    	write_file(u"FSK", "REC.bin", int_rec_buffer);
 	    	buffer_cnt=0;
 	    }
 	    int_rec_buffer[buffer_cnt]=*value;
 	    buffer_cnt++;
-	    
+
          }
     }
 
-    void GMSKView::on_rx_progress(const uint32_t progress, const bool done)  // Function logic for when the message handler       
+    void GMSKView::on_rx_progress(const uint32_t progress, const bool done)  // Function logic for when the message handler
     {                                                                          // sends a TXProgressMess
        if(done) {
           stop_rx();
        } else {
-								                    // UI logic, update ProgressBar with progress 
+								                    // UI logic, update ProgressBar with progress
        }									    //          }
     }
 
@@ -161,7 +162,7 @@ namespace ui
 							            return false;
 								        }
     }
-    
+
     void GMSKView::set_options_widget(std::unique_ptr<Widget> new_widget) {
 	/*remove_options_widget();
 
@@ -173,16 +174,16 @@ namespace ui
 	}
 	add_child(options_widget.get());*/
     }
-    
+
    void GMSKView::remove_options_widget() {
 	if( options_widget ) {
 		remove_child(options_widget.get());
 		options_widget.reset();
 	}
-	
+
 	//field_lna.set_style(nullptr);
 	//options_modulation.set_style(nullptr);
 	field_frequency.set_style(nullptr);
    }
-    
+
 }

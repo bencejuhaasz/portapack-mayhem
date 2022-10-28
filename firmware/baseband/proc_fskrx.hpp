@@ -10,6 +10,8 @@ public:
   void execute(const buffer_c8_t& buffer) override;
   void on_message(const Message* const p) override;
 private:
+  BasebandThread baseband_thread { baseband_fs, this, NORMALPRIO + 20, baseband::Direction::Receive };
+	RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);
   std::array<complex16_t, 512> dst { };
   dsp::decimate::FIRC8xR16x24FS4Decim8 decim_0 { };

@@ -118,7 +118,7 @@ namespace ui
       if(is_data) {
             // RX data handling Logic
 	    //my_gmsk_numberfield.set_value(*value);
-	      if (prev_reg!=*value) {
+	      /*if (prev_reg!=*value) {
 		    int number = data_status_label.value();
 		    if (number==255) {
 			    number=0;
@@ -126,7 +126,18 @@ namespace ui
 		            number++;
 			            data_status_label.set_value(number);
 				    prev_reg=*value;
-	    }
+	    }*/
+
+
+      int number = data_status_label.value();
+      if (number==255) {
+        number=0;
+      }
+      number++;
+      data_status_label.set_value(number);
+
+
+      
 	    if(buffer_cnt==1000) {
 	    	write_file(u"FSK", "REC.bin", int_rec_buffer);
 	    	buffer_cnt=0;
@@ -134,7 +145,7 @@ namespace ui
 	    int_rec_buffer[buffer_cnt]=*value;
 	    buffer_cnt++;
 
-         }
+      }
     }
 
     void GMSKView::on_rx_progress(const uint32_t progress, const bool done)  // Function logic for when the message handler

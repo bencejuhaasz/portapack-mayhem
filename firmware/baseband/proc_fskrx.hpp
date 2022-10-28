@@ -18,7 +18,7 @@ public:
   void execute(const buffer_c8_t& buffer) override;
   void on_message(const Message* const p) override;
 private:
-  static constexpr size_t baseband_fs = 3072000;
+  static constexpr size_t baseband_fs = 2000000;
   BasebandThread baseband_thread { baseband_fs, this, NORMALPRIO, baseband::Direction::Receive };
 	RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);

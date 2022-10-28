@@ -3,13 +3,22 @@
 
 #include "baseband_processor.hpp"
 #include "baseband_thread.hpp"
+#include "rssi_thread.hpp"
+
 #include "dsp_decimate.hpp"
+#include "dsp_demodulate.hpp"
+
+#include "audio_output.hpp"
+
+#include "fifo.hpp"
+#include "message.hpp"
 
 class FSKRXProcessor: public BasebandProcessor {
 public:
   void execute(const buffer_c8_t& buffer) override;
   void on_message(const Message* const p) override;
 private:
+  static constexpr size_t baseband_fs = 3072000;
   BasebandThread baseband_thread { baseband_fs, this, NORMALPRIO + 20, baseband::Direction::Receive };
 	RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);

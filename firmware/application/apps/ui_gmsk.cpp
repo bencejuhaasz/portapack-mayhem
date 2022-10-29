@@ -100,7 +100,7 @@ namespace ui
       baseband::run_image(portapack::spi_flash::image_tag_fsk_rx);
       //baseband::set_afsk(9600, 8, 0, false);
       receiver_model.set_tuning_frequency(5000000);
-      receiver_model.set_sampling_rate(2000000);
+      receiver_model.set_sampling_rate(1000000);
       receiver_model.set_baseband_bandwidth(240000);
       //receiver_model.set_modulation(ReceiverModel::Mode::NarrowbandFMAudio);
       receiver_model.set_modulation(ReceiverModel::Mode::Capture);
@@ -137,7 +137,7 @@ namespace ui
       data_status_label.set_value(number);
 
 
-      
+
 	    if(buffer_cnt==1000) {
 	    	write_file(u"FSK", "REC.bin", int_rec_buffer);
 	    	buffer_cnt=0;

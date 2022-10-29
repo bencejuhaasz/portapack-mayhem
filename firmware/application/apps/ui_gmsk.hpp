@@ -74,7 +74,7 @@ namespace ui
 
 
 	//File handling
-        bool write_file(const std::filesystem::path& path, std::string name, const void * data);
+  bool write_file(const std::filesystem::path& path, std::string name, const void * data);
 	bool create_file(const std::filesystem::path& path, std::string name);
 
         MessageHandlerRegistration message_handler_packet {

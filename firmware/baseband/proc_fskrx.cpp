@@ -14,6 +14,7 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
   for (size_t i = 0; i < buffer.count; i++) {
     ret += buffer.p[i].imag();
   }
+  data_message.is_data=true;
   data_message.value=ret;
   shared_memory.application_queue.push(data_message);
 }

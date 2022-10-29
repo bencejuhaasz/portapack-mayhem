@@ -15,8 +15,8 @@ public:
   void execute(const buffer_c8_t& buffer) override;
   void on_message(const Message* const p) override;
 private:
-  FSKDataMessage data_message {true,0};
-  BasebandThread baseband_thread { 1000000, this, NORMALPRIO+20, baseband::Direction::Receive };
+  AFSKDataMessage data_message { false, 0 };
+  BasebandThread baseband_thread { 3072000, this, NORMALPRIO+20, baseband::Direction::Receive };
 	RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);
 };

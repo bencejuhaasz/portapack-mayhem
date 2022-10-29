@@ -78,9 +78,9 @@ namespace ui
 	bool create_file(const std::filesystem::path& path, std::string name);
 
         MessageHandlerRegistration message_handler_packet {
-          Message::ID::AFSKData,
+          Message::ID::FSKData,
           [this](Message* const p) {
-            const auto message = static_cast<const AFSKDataMessage*>(p);
+            const auto message = static_cast<const FSKDataMessage*>(p);
             this->on_data(&message->value, &message->is_data);
         }};
     };

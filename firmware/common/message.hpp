@@ -409,15 +409,15 @@ class FSKDataMessage : public Message {
 public:
 	constexpr FSKDataMessage(
 		const bool is_data,
-		const uint32_t value
+		const vector<bool> output
 	) : Message { ID::FSKData },
 		is_data { is_data },
-		value { value }
+		output { output }
 	{
 	}
 
 	bool is_data;
-	uint32_t value;
+	vector<bool> output;
 };
 
 class FSKRxConfigureMessage : public Message {

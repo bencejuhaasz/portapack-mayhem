@@ -7,16 +7,36 @@
 
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
-  uint32_t ret = buffer.p[0].real();
+  //create preprocess output vector
+  vector<complex<uint32_t>> prep_output;
+  //DFT on buffer
   for (size_t i = 0; i < buffer.count; i++) {
-    ret += buffer.p[i].real();
+    prep_output.push_back(DFT(buffer.p[i], i));
   }
-  for (size_t i = 0; i < buffer.count; i++) {
-    ret += buffer.p[i].imag();
+
+  //bit vector
+  vector<bool> output;
+  //process DFT result
+  for (size_t i = 0; i < prep_output.size(); i++) {
+    /* code */
   }
+  //return data
   data_message.is_data=true;
-  data_message.value=ret;
+  data_message.value=output;
   shared_memory.application_queue.push(data_message);
+}
+
+complex<uint32_t> FSKRXProcessor::DFT(complex<uint32_t> in, int k); {
+    uint32_t a = 0;
+    uint32_t b = 0;
+    int N = buffer.count;
+    for(int n = 0; n < N; n++)
+    {
+        a+= cos((2 * M_PI * k * n) / N) * buffer.p[n];
+        b+= -sin((2 * M_PI * k * n) / N) * buffer.p[n];
+    }
+    complex<uint32_t> temp(a, b);
+    return temp;
 }
 
 void FSKRXProcessor::on_message(const Message* const message) {

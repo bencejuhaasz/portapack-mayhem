@@ -19,6 +19,7 @@ private:
   BasebandThread baseband_thread { 3072000, this, NORMALPRIO+20, baseband::Direction::Receive };
 	RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);
+  complex<uint32_t> DFT(complex<uint32_t> in, int k);
 };
 
 #endif

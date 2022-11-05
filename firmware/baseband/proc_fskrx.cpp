@@ -4,38 +4,39 @@
 #include "event_m4.hpp"
 
 #include <cstdint>
+#include <vector>
 
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
   //create preprocess output vector
-  vector<complex<uint32_t>> prep_output;
+  std::vector<std::complex<float>> prep_output;
   //DFT on buffer
   for (size_t i = 0; i < buffer.count; i++) {
-    prep_output.push_back(DFT(buffer.p[i], i));
+    prep_output.push_back(DFT(buffer.p[i], i,buffer));
   }
 
   //bit vector
-  vector<bool> output;
+  v.push_back(true);
   //process DFT result
   for (size_t i = 0; i < prep_output.size(); i++) {
     /* code */
   }
   //return data
   data_message.is_data=true;
-  data_message.value=output;
+  data_message.value=32;
   shared_memory.application_queue.push(data_message);
 }
 
-complex<uint32_t> FSKRXProcessor::DFT(complex<uint32_t> in, int k); {
-    uint32_t a = 0;
-    uint32_t b = 0;
+std::complex<float> FSKRXProcessor::DFT(std::complex<signed char> in, int k,const buffer_c8_t& buffer) {
+    float a = 0;
+    float b = 0;
     int N = buffer.count;
     for(int n = 0; n < N; n++)
     {
         a+= cos((2 * M_PI * k * n) / N) * buffer.p[n];
         b+= -sin((2 * M_PI * k * n) / N) * buffer.p[n];
     }
-    complex<uint32_t> temp(a, b);
+    std::complex<float> temp(a, b);
     return temp;
 }
 

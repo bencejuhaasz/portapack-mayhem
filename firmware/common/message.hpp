@@ -48,6 +48,8 @@
 
 #include "ch.h"
 
+#include <vector>
+
 class Message {
 public:
 	static constexpr size_t MAX_SIZE = 512;
@@ -407,17 +409,20 @@ public:
 
 class FSKDataMessage : public Message {
 public:
-	constexpr FSKDataMessage(
-		const bool is_data,
-		const vector<bool> output
+	 FSKDataMessage(
+		bool is_data,
+		std::vector<bool> output,
+		uint32_t value
 	) : Message { ID::FSKData },
 		is_data { is_data },
-		output { output }
+		output { output },
+		value { value }
 	{
 	}
 
 	bool is_data;
-	vector<bool> output;
+	std::vector<bool> output;
+	uint32_t value;
 };
 
 class FSKRxConfigureMessage : public Message {

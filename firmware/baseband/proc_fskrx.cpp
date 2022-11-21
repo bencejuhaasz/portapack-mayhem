@@ -8,37 +8,26 @@
 
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
-  //create preprocess output vector
-  std::vector<std::complex<float>> prep_output;
-  //DFT on buffer
-  for (size_t i = 0; i < buffer.count; i++) {
-    prep_output.push_back(DFT(buffer.p[i], i,buffer));
-  }
 
-  //bit vector
-  v.push_back(true);
-  //process DFT result
-  for (size_t i = 0; i < prep_output.size(); i++) {
-    /* code */
+  for(int i=0;i<buffer.count;i++) {
+    std::vector<bool> v;
+    if(buffer.p[i].real()>0) {
+      v.push_back(true);
+    } else {
+      v.push_back(false);
+    }
+    if(buffer.p[i].imag()>0) {
+      v.push_back(true);
+    } else {
+      v.push_back(false);
+    }
   }
-  //return data
+  data_message.value=accumulate(v.rbegin(), v.rend(), 0, [](int x, int y) { return (x << 1) + y; });
   data_message.is_data=true;
-  data_message.value=32;
   shared_memory.application_queue.push(data_message);
 }
 
-std::complex<float> FSKRXProcessor::DFT(std::complex<signed char> in, int k,const buffer_c8_t& buffer) {
-    float a = 0;
-    float b = 0;
-    int N = buffer.count;
-    for(int n = 0; n < N; n++)
-    {
-        a+= cos((2 * M_PI * k * n) / N) * buffer.p[n];
-        b+= -sin((2 * M_PI * k * n) / N) * buffer.p[n];
-    }
-    std::complex<float> temp(a, b);
-    return temp;
-}
+
 
 void FSKRXProcessor::on_message(const Message* const message) {
   if (message->id == Message::ID::FSKRxConfigure)

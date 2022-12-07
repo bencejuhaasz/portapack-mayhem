@@ -5,7 +5,7 @@
 
 #include <cstdint>
 #include <vector>
-
+#include <numeric>
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
 

@@ -8,9 +8,8 @@
 #include <numeric>
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
-
+  std::vector<bool> v;
   for(int i=0;i<buffer.count;i++) {
-    std::vector<bool> v;
     if(buffer.p[i].real()>0) {
       v.push_back(true);
     } else {
@@ -22,8 +21,9 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
       v.push_back(false);
     }
   }
-  data_message.value=accumulate(v.rbegin(), v.rend(), 0, [](int x, int y) { return (x << 1) + y; });
+  uint32_t a = accumulate(v.rbegin(), v.rend(), 0, [](int x, int y) { return (x << 1) + y; });
   data_message.is_data=true;
+  data_message.value=a;
   shared_memory.application_queue.push(data_message);
 }
 

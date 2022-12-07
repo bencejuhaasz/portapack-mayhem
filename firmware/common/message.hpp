@@ -411,17 +411,14 @@ class FSKDataMessage : public Message {
 public:
 	 FSKDataMessage(
 		bool is_data,
-		std::vector<bool> output,
 		uint32_t value
 	) : Message { ID::FSKData },
 		is_data { is_data },
-		output { output },
 		value { value }
 	{
 	}
 
 	bool is_data;
-	std::vector<bool> output;
 	uint32_t value;
 };
 

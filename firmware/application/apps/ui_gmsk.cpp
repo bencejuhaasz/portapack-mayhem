@@ -133,7 +133,9 @@ namespace ui
       if (number==255) {
         number=0;
       }
-      number++;
+      if(*value!=0) {
+        number++;
+      }
       data_status_label.set_value(number);
 
 

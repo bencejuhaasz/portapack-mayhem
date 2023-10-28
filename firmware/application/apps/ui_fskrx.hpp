@@ -11,11 +11,11 @@
 
 namespace ui
 {
-    class GMSKView : public View                                // App class declaration
+    class FSKRXView : public View                                // App class declaration
     {
     public:
-        GMSKView(NavigationView &nav);                          // App class init function declaration
-        std::string title() const override { return "GMSK-REC"; }; // App title
+        FSKRXView(NavigationView &nav);                          // App class init function declaration
+        std::string title() const override { return "FSKRX-REC"; }; // App title
 
     private:
 	uint32_t prev_reg;

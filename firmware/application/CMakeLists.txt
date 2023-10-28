@@ -268,7 +268,7 @@ set(CPPSRC
 	apps/gps_sim_app.cpp
 	apps/soundboard_app.cpp
 	apps/tpms_app.cpp
-	apps/ui_gmsk.cpp
+	apps/ui_fskrx.cpp
 	protocols/aprs.cpp
 	protocols/ax25.cpp
 	protocols/bht.cpp

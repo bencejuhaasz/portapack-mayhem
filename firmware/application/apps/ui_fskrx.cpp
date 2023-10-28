@@ -1,4 +1,4 @@
-#include "ui_gmsk.hpp"
+#include "ui_fskrx.hpp"
 #include "portapack.hpp"
 #include <cstring>
 #include "file.hpp"
@@ -9,7 +9,7 @@ using namespace portapack;
 namespace ui
 {
 
-    GMSKView::GMSKView(NavigationView &nav) // Application Main
+    FSKRXView::FSKRXView(NavigationView &nav) // Application Main
     {
       prev_reg = 0;
       add_children({
@@ -30,7 +30,7 @@ namespace ui
       };
 
       //Create file we are recording to
-      create_file(u"FSK", "REC.bin");
+      create_file(u"FSKRX", "REC.bin");
       //Start baseband RX process
 
       stop_btn.on_select = [this](Button &){
@@ -59,11 +59,11 @@ namespace ui
     }
 
 
-    void GMSKView::on_tuning_frequency_changed(rf::Frequency f) {
+    void FSKRXView::on_tuning_frequency_changed(rf::Frequency f) {
 	receiver_model.set_tuning_frequency(f);
     }
 
-    void GMSKView::on_show_options_frequency() {
+    void FSKRXView::on_show_options_frequency() {
 	auto widget = std::make_unique<FrequencyOptionsView>(options_view_rect, &style_options_group);
 
 	widget->set_step(receiver_model.frequency_step());
@@ -79,21 +79,21 @@ namespace ui
 	field_frequency.set_style(&style_options_group);
      }
 
-     void GMSKView::on_frequency_step_changed(rf::Frequency f) {
+     void FSKRXView::on_frequency_step_changed(rf::Frequency f) {
 	receiver_model.set_frequency_step(f);
 	field_frequency.set_step(f);
      }
 
-     void GMSKView::on_reference_ppm_correction_changed(int32_t v) {
+     void FSKRXView::on_reference_ppm_correction_changed(int32_t v) {
 	persistent_memory::set_correction_ppb(v * 1000);
      }
 
-    void GMSKView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
+    void FSKRXView::update()                   // Every time you get a DisplayFrameSync message this function will be ran
     {
          // Message code
     }
 
-    void GMSKView::start_rx()
+    void FSKRXView::start_rx()
     {
       // persistent_memory::set_modem_baudrate(def_bell202->baudrate);
       //baseband::set_afsk(persistent_memory::modem_baudrate(), 8, 0, false);
@@ -107,27 +107,15 @@ namespace ui
       receiver_model.enable();
     }
 
-    void GMSKView::stop_rx()
+    void FSKRXView::stop_rx()
     {
       receiver_model.disable();
       baseband::shutdown();
     }
 
-    void GMSKView::on_data(const uint32_t * value, const bool * is_data)
+    void FSKRXView::on_data(const uint32_t * value, const bool * is_data)
     {
       if(is_data) {
-            // RX data handling Logic
-	    //my_gmsk_numberfield.set_value(*value);
-	      /*if (prev_reg!=*value) {
-		    int number = data_status_label.value();
-		    if (number==255) {
-			    number=0;
-                    }
-		            number++;
-			            data_status_label.set_value(number);
-				    prev_reg=*value;
-	    }*/
-
 
       int number = data_status_label.value();
       if (number==255) {
@@ -150,7 +138,7 @@ namespace ui
       }
     }
 
-    void GMSKView::on_rx_progress(const uint32_t progress, const bool done)  // Function logic for when the message handler
+    void FSKRXView::on_rx_progress(const uint32_t progress, const bool done)  // Function logic for when the message handler
     {                                                                          // sends a TXProgressMess
        if(done) {
           stop_rx();
@@ -159,13 +147,13 @@ namespace ui
        }									    //          }
     }
 
-    bool GMSKView::create_file(const std::filesystem::path& path, std::string name) {
+    bool FSKRXView::create_file(const std::filesystem::path& path, std::string name) {
 	        File file = { };                                                                // Create File object
 		    Optional<File::Error> sucess = file.create(path.string() + "/" + name);         // Create File
 		        return !(sucess.is_valid());                                                    // 0 is success
     }
 
-    bool GMSKView::write_file(const std::filesystem::path& path, std::string name, const void * data) {
+    bool FSKRXView::write_file(const std::filesystem::path& path, std::string name, const void * data) {
 	        File file;                                                                     // Create File object
 		    auto sucess = file.append(path.string() + "/" + name);                         // Open file
 		        if(!sucess.is_valid()) {                                                       // 0 is success
@@ -176,7 +164,7 @@ namespace ui
 								        }
     }
 
-    void GMSKView::set_options_widget(std::unique_ptr<Widget> new_widget) {
+    void FSKRXView::set_options_widget(std::unique_ptr<Widget> new_widget) {
 	/*remove_options_widget();
 
 	if( new_widget ) {
@@ -188,7 +176,7 @@ namespace ui
 	add_child(options_widget.get());*/
     }
 
-   void GMSKView::remove_options_widget() {
+   void FSKRXView::remove_options_widget() {
 	if( options_widget ) {
 		remove_child(options_widget.get());
 		options_widget.reset();

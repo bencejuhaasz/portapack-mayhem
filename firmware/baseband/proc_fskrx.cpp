@@ -9,22 +9,28 @@
 
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
   std::vector<bool> v;
-  for(int i=0;i<buffer.count;i++) {
-    if(buffer.p[i].real()>0) {
-      v.push_back(true);
-    } else {
-      v.push_back(false);
+  for(int i=1;i<buffer.count;i++) {
+    if (buffer.p[i].real()*buffer.p[i-1].real()<0) {
+      if(buffer.p[i].real()>0) {
+        v.push_back(true);
+      } else {
+        v.push_back(false);
+      }
     }
-    if(buffer.p[i].imag()>0) {
-      v.push_back(true);
-    } else {
-      v.push_back(false);
+    if (buffer.p[i].real()*buffer.p[i-1].real()<0) {
+      if(buffer.p[i].imag()>0) {
+        v.push_back(true);
+      } else {
+        v.push_back(false);
+      }
     }
   }
-  uint32_t a = accumulate(v.rbegin(), v.rend(), 0, [](int x, int y) { return (x << 1) + y; });
-  data_message.is_data=true;
-  data_message.value=a;
-  shared_memory.application_queue.push(data_message);
+  if (v.size()>0) {
+    uint32_t a = accumulate(v.rbegin(), v.rend(), 0, [](int x, int y) { return (x << 1) + y; });
+    data_message.is_data=true;
+    data_message.value=a;
+    shared_memory.application_queue.push(data_message);
+  }
 }
 
 

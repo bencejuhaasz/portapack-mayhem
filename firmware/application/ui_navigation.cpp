@@ -19,7 +19,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street,
  * Boston, MA 02110-1301, USA.
  */
-#include "ui_gmsk.hpp"
+#include "ui_fskrx.hpp"
 #include "ui_navigation.hpp"
 
 //#include "modules.h"
@@ -479,7 +479,7 @@ ReceiversMenuView::ReceiversMenuView(NavigationView& nav) {
 		{ "POCSAG", 	ui::Color::green(),		&bitmap_icon_pocsag,	[&nav](){ nav.push<POCSAGAppView>(); } },
 		{ "Radiosnde", 	ui::Color::green(),		&bitmap_icon_sonde,		[&nav](){ nav.push<SondeView>(); } },
 		{ "TPMS Cars", 	ui::Color::green(),		&bitmap_icon_tpms,		[&nav](){ nav.push<TPMSAppView>(); } },
-		{ "GMSK-REC", 	ui::Color::green(),		&bitmap_icon_modem,		[&nav](){ nav.push<GMSKView>(); } },
+		{ "FSKRX-REC", 	ui::Color::green(),		&bitmap_icon_modem,		[&nav](){ nav.push<FSKRXView>(); } },
 		{ "APRS", 		ui::Color::green(),		&bitmap_icon_aprs,		[&nav](){ nav.push<APRSRXView>(); } }
 		/*
 		{ "DMR", 		ui::Color::dark_grey(),	&bitmap_icon_dmr,		[&nav](){ nav.push<NotImplementedView>(); } },

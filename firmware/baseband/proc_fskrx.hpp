@@ -9,6 +9,7 @@
 #include "audio_output.hpp"
 #include "fifo.hpp"
 #include "message.hpp"
+#include <vector>
 
 class FSKRXProcessor: public BasebandProcessor {
 public:
@@ -19,6 +20,7 @@ private:
   BasebandThread baseband_thread { 3072000, this, NORMALPRIO+20, baseband::Direction::Receive };
   RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);
+  uint32_t time = 0;
 };
 
 #endif

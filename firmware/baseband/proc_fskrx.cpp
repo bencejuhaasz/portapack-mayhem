@@ -14,22 +14,28 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
 
     //zero crossing
     if (buffer.p[i].real()*buffer.p[i-1].real()<0) {
-      //bit time measure operation
+      if (real_last_zero_crossing_time!=0) {
+        real_bit_time=time-real_last_zero_crossing_time;
+      }
+      real_last_zero_crossing_time=time;
     }
     if (buffer.p[i].imag()*buffer.p[i-1].imag()<0) {
-      //bit time measure operationi
+      if (imag_last_zero_crossing_time!=0) {
+        imag_bit_time=time-imag_last_zero_crossing_time;
+      }
+      imag_last_zero_crossing_time=time;
     }
 
 
     //bit time
-    if(true) {
+    if(time-real_last_zero_crossing_time=real_bit_time) {
       if(buffer.p[i].real()>0) {
         v.push_back(true);
       } else {
         v.push_back(false);
       }
     }
-    if (true) {
+    if (time-imag_last_zero_crossing_time=imag_bit_time) {
       if(buffer.p[i].imag()>0) {
         v.push_back(true);
       } else {

@@ -21,6 +21,11 @@ private:
   RSSIThread rssi_thread { NORMALPRIO + 10 };
   void configure(const FSKRxConfigureMessage& message);
   uint32_t time = 0;
+  uint32_t real_last_zero_crossing_time=0;
+  uint32_t imag_last_zero_crossing_time=0;
+  uint32_t real_bit_time=0;
+  uint32_t imag_bit_time=0;
+
 };
 
 #endif

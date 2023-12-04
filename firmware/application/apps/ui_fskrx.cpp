@@ -127,7 +127,7 @@ namespace ui
         number++;
       }
       data_status_label.set_value(number);
-      if(number==200){
+      if(number%50==0){
         std::bitset<32> x(*value);
         my_console.clear(true);
         my_console.write(x.to_string());

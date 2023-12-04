@@ -3,6 +3,7 @@
 #include <cstring>
 #include "file.hpp"
 #include "sd_card.hpp"
+#include <bitset>
 
 using namespace portapack;
 
@@ -38,7 +39,7 @@ namespace ui
         stop_rx();
       };
 
-
+      my_console.enable_scrolling(true);
       //Freq selector
       field_frequency.set_value(receiver_model.tuning_frequency());
       field_frequency.set_step(receiver_model.frequency_step());
@@ -126,12 +127,10 @@ namespace ui
         number++;
       }
       data_status_label.set_value(number);
-      if(number==100){
-        my_console.write(std::to_string(*value));
-      }
       if(number==200){
+        std::bitset<32> x(*value);
         my_console.clear(true);
-        my_console.write(std::to_string(*value));
+        my_console.write(x.to_string());
       }
 
 

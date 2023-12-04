@@ -16,7 +16,8 @@ namespace ui
         &data_status_label,
         &start_btn,
         &stop_btn,
-        &field_frequency
+        &field_frequency,
+	&my_console
       });
 
 
@@ -125,7 +126,13 @@ namespace ui
         number++;
       }
       data_status_label.set_value(number);
-
+      if(number==100){
+        my_console.write(std::to_string(*value));
+      }
+      if(number==200){
+        my_console.clear(true);
+        my_console.write(std::to_string(*value));
+      }
 
 
 	    if(buffer_cnt==1000) {

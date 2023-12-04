@@ -11,31 +11,44 @@
 void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
   std::vector<bool> v;
   for(int i=1;i<buffer.count;i++) {
-
+    if(i==18446744073709551610){
+      r_avg_bit_time=0;
+      i_avg_bit_time=0;
+      i = 0;
+      j = 0;
+    }
+    if(j==18446744073709551610){
+      r_avg_bit_time=0;
+      i_avg_bit_time=0;
+      i = 0;
+      j = 0;
+    }
     //zero crossing
     if (buffer.p[i].real()*buffer.p[i-1].real()<0) {
       if (real_last_zero_crossing_time!=0) {
-        real_bit_time=time-real_last_zero_crossing_time;
+        r_avg_bit_time = ((r_avg_bit_time * (i - 1)) + (time-real_last_zero_crossing_time)) / i;
+        i++;
       }
       real_last_zero_crossing_time=time;
     }
     if (buffer.p[i].imag()*buffer.p[i-1].imag()<0) {
       if (imag_last_zero_crossing_time!=0) {
-        imag_bit_time=time-imag_last_zero_crossing_time;
+        i_avg_bit_time = ((i_avg_bit_time * (j - 1)) + (time-imag_last_zero_crossing_time)) / j;
+        j++;
       }
       imag_last_zero_crossing_time=time;
     }
 
 
     //bit time
-    if(time-real_last_zero_crossing_time=real_bit_time) {
+    if((double)(time-real_last_zero_crossing_time)-r_avg_bit_time<1) {
       if(buffer.p[i].real()>0) {
         v.push_back(true);
       } else {
         v.push_back(false);
       }
     }
-    if (time-imag_last_zero_crossing_time=imag_bit_time) {
+    if ((double)(time-imag_last_zero_crossing_time)-i_avg_bit_time<1) {
       if(buffer.p[i].imag()>0) {
         v.push_back(true);
       } else {

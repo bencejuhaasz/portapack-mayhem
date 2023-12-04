@@ -44,6 +44,9 @@ namespace ui
 
             Button start_btn{{60, 60, 100, 100},"Start"};
             Button stop_btn{{60, 200, 100, 100},"Stop"};
+            Console my_console {
+              { 200, 60, 35, 200 },    // Coordinates are: int:x (px), int:y (px), int:width (px), int:height (px)
+            };
 
             //??
             const Rect options_view_rect { 0 * 8, 1 * 16, 30 * 8, 1 * 16 };

@@ -26,14 +26,21 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
     //zero crossing
     if (buffer.p[i].real()*buffer.p[i-1].real()<0) {
       if (real_last_zero_crossing_time!=0) {
-        r_avg_bit_time = ((r_avg_bit_time * (i - 1)) + (time-real_last_zero_crossing_time)) / i;
+        double next_avg = ((r_avg_bit_time * (i - 1)) + (time-real_last_zero_crossing_time)) / i;
+        if((r_avg_bit_time*1.4)>next_avg){
+          r_avg_bit_time=next_avg;
+        }
+        r_avg_bit_time
         i++;
       }
       real_last_zero_crossing_time=time;
     }
     if (buffer.p[i].imag()*buffer.p[i-1].imag()<0) {
       if (imag_last_zero_crossing_time!=0) {
-        i_avg_bit_time = ((i_avg_bit_time * (j - 1)) + (time-imag_last_zero_crossing_time)) / j;
+        double next_avg = ((i_avg_bit_time * (j - 1)) + (time-imag_last_zero_crossing_time)) / j;
+        if((i_avg_bit_time*1.4)>next_avg){
+          i_avg_bit_time=next_avg;
+        }
         j++;
       }
       imag_last_zero_crossing_time=time;

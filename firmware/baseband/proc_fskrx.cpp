@@ -30,7 +30,6 @@ void FSKRXProcessor::execute(const buffer_c8_t& buffer) {
         if((r_avg_bit_time*1.4)>next_avg){
           r_avg_bit_time=next_avg;
         }
-        r_avg_bit_time
         i++;
       }
       real_last_zero_crossing_time=time;
